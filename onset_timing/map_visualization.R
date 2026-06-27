@@ -11,7 +11,7 @@ library(mgcv)
 us_map <- map_data("state")
 
 hsa_geo <- read.csv("HSA_GEO.csv")
-breakpoints <- read.csv("breakpoints_covid1.csv")
+breakpoints <- read.csv("breakpoints_covid.csv")
 breakpoints <- breakpoints %>%
   mutate(breakpoint = as.Date(breakpoint, format = "%m/%d/%Y")) %>%
   # mutate(breakpoint = as.Date(breakpoint, format = "%Y-%m-%d")) %>%
