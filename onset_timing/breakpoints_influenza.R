@@ -12,13 +12,9 @@ library(ggpubr)
 library(zoo)
 #library(cdcfluview)
 
-###############################
-# download ED  dataset from HHS 
-###############################
+setwd("")  # add directory
 
-setwd("C:/Work/research/nih_epi/models/breakpoint_extraction")
 ##download CDC dataset from API, 2020-present. Use the HSA-level time series version
-
 # download.file("https://data.cdc.gov/api/views/rdmq-nq56/rows.csv?accessType=DOWNLOAD","ED.csv")
 
 locs=read.csv("ED.csv") %>% dplyr::filter(!is.na(percent_visits_influenza))  %>% # influenza
