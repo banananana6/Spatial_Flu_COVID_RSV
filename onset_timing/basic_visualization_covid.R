@@ -1,4 +1,4 @@
-# visualize time-series
+# visualize COVID time-series
 
 library(tidyr)
 library(dplyr)
@@ -9,16 +9,12 @@ library(purrr)
 library(MMWRweek)
 #library(cdcfluview)
 
-###############################
-# download ED  dataset from HHS 
-###############################
+setwd("") # add directory here
 
-setwd("C:/Work/research/nih_epi/models/breakpoint_extraction")
 ##download CDC dataset from API, 2020-present. Use the HSA-level time series version
-
 # download.file("https://data.cdc.gov/api/views/rdmq-nq56/rows.csv?accessType=DOWNLOAD","ED.csv")
 
-start_date <- "2022-10-14" # for covid/influenza
+start_date <- "2022-10-14"
 end_date <- "2026-03-01"
 
 locs=read.csv("ED.csv") %>% dplyr::filter(!is.na(percent_visits_smoothed_covid))  %>% 
