@@ -1,4 +1,4 @@
-# visualize COVID time-series
+# visualize COVID time-series, with peaks and onsets displayed
 
 library(tidyr)
 library(dplyr)
