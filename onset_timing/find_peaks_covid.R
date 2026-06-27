@@ -12,7 +12,7 @@ library(ggpubr)
 library(zoo)
 library(pracma)
 
-setwd("C:/Work/research/nih_epi/models/breakpoint_extraction")
+setwd("") # add directory
 
 locs <- read.csv("ED.csv") %>%
   dplyr::filter(!is.na(percent_visits_smoothed_covid)) %>% # covid
