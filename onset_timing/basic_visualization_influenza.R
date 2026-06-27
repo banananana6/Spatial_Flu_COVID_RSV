@@ -1,4 +1,4 @@
-# visualize time-series
+# visualize flu time-series, with peaks and onsets displayed
 
 library(tidyr)
 library(dplyr)
@@ -8,7 +8,7 @@ library(data.table)
 library(purrr)
 library(MMWRweek)
 
-setwd("C:/Work/research/nih_epi/models/breakpoint_extraction")
+setwd("") # add directory
 
 start_date <- "2022-10-14"
 end_date <- "2026-03-01"
