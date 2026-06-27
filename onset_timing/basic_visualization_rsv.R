@@ -1,4 +1,4 @@
-# visualize time-series
+# visualize rsv time-series, with peaks and onsets displayed
 
 library(tidyr)
 library(dplyr)
@@ -8,8 +8,8 @@ library(data.table)
 library(purrr)
 library(MMWRweek)
 
-setwd("C:/Work/research/nih_epi/models/breakpoint_extraction")
-# 
+setwd("") # add directory
+
 start_date <- "2022-10-14"
 end_date <- "2026-05-01"
 
@@ -69,9 +69,7 @@ colors <- c("COVID" = "red", "Flu" = "blue", "RSV" = "green")
 # selected_ids <- c(287, 408, 453, 22, 274, 153, 688, 83, 66, 16)     # top10
 selected_ids <- c(378, 573, 294, 773, 343, 362, 364, 389, 46, 92)     # median10
 
-# selected_ids <- c(538, 505, 419, 530, 792, 743, 528, 131, 141,525)     # top10
-
-# one shared lookup: exactly one panel_label per hsa_nci_id
+# shared lookup per hsa_nci_id
 hsa_labels <- ed %>%
   distinct(hsa_nci_id, panel_label) %>%
   group_by(hsa_nci_id) %>%
