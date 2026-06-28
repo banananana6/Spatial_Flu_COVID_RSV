@@ -1,0 +1,29 @@
+INFLUENZA
+start_date <- "2023-07-01" # for 2023-2024/influenza
+end_date <- "2024-05-01"
+start_date <- "2024-08-01" # for 2024-2025/influenza
+end_date <- "2025-05-01"
+start_date <- "2025-08-01" # for 2025-2026/influenza
+end_date <- "2026-05-01"
+
+COVID
+start_date <- "2023-03-20" # for pd1/covid
+end_date <- "2023-09-01"
+start_date<- "2023-09-01" # for pd2/covid
+end_date <- "2024-03-01"
+start_date <- "2024-03-01" # for pd3/covid
+end_date <- "2024-09-01"
+start_date <- "2024-09-01" # for pd4/covid
+end_date <- "2025-03-20"
+start_date <- "2025-03-20" # for pd5/covid
+end_date <- "2025-09-01"
+start_date <- "2025-09-01" # for pd6/covid
+end_date <- "2026-03-01"
+
+RSV
+start_date <- "2023-07-01" # for 2023-2024/rsv
+end_date <- "2024-05-01"
+start_date <- "2024-07-01" # for 2024-2025/rsv
+end_date <- "2025-05-01"
+start_date <- "2025-07-01" # for 2025-2026/rsv
+end_date <- "2026-05-01"
