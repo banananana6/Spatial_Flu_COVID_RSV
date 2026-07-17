@@ -36,7 +36,7 @@ n <- nrow(hsa_geo)
 coords <- cbind(hsa_geo$weighted_lon, hsa_geo$weighted_lat)
 
 nsim <- 50
-seed_time <- 1          # infected immediately at sim_start_date
+seed_time <- 1 # infected immediately at sim_start_date
 
 set.seed(42)
 

@@ -1,4 +1,4 @@
-# parameter estimation using MCMC with fixed beta
+# MCMC for the two-parameter model (alpha, spark) with fixed beta
 
 library(doRNG)
 library(foreach)
@@ -10,7 +10,7 @@ library(EpiILM)
 
 start_time <- Sys.time()
 
-setwd("C:/Work/research/nih_epi/models/parameter_estimation")
+setwd("") # add directory
 
 cl <- makeCluster(parallel::detectCores() - 1)
 registerDoParallel(cl)
@@ -190,29 +190,11 @@ plot(model1, partype = "parameter", start = 2001, density = FALSE)
 ll_trace <- model1$Loglikelihood
 plot(ll_trace, type = "l", xlab = "iteration", ylab = "log-likelihood")
 
-## alpha 1D likelihood
+## alpha profile likelihood, model1
 alpha_grid <- seq(0.0001, 0.002, by = 0.00002)
 
 posterior_mean_beta <- fixed_b
-posterior_mean_spark <- spark.par
-
-ll_profile_alpha <- sapply(alpha_grid, function(a) {
-  epilike(object = SI.model, tmin = t_start, tmax = t_end, 
-          sus.par = a, beta = fixed_b, spark = posterior_mean_spark)
-})
-
-plot(
-  alpha_grid, ll_profile_alpha,
-  type = "l",
-  xlab = "alpha",
-  ylab = "log-likelihood"
-)
-
-# --- mark alpha value in grid ---
-alpha_mark <- alpha_grid <- seq(0.0001, 0.002, by = 0.00002)
-
-posterior_mean_beta <- fixed_b
-posterior_mean_spark <- mean(model1$Estimates[n.burnin:n.iterations, spark.par])
+posterior_mean_spark <- mean(model1$Estimates[(n.burnin+1):n.iterations, "spark"])
 
 ll_profile_alpha <- sapply(alpha_grid, function(a) {
   epilike(object = SI.model, tmin = t_start, tmax = t_end, 
@@ -251,76 +233,13 @@ text(
   pos = 4,
   cex = 0.8
 )
-idx <- which.min(abs(alpha_grid - alpha_mark))
-
-x_mark <- alpha_grid[idx]
-y_mark <- ll_profile_alpha[idx]
-
-plot(
-  alpha_grid, ll_profile_alpha,
-  type = "l",
-  xlab = "alpha",
-  ylab = "log-likelihood"
-)
-
-abline(v = x_mark, lty = 2, col = "red")
-abline(h = y_mark, lty = 2, col = "blue")
-
-points(x_mark, y_mark, pch = 19, col = "black", cex = 1.3)
-
-text(
-  x_mark, y_mark,
-  labels = sprintf("(%.6f, %.2f)", x_mark, y_mark),
-  pos = 4,
-  cex = 0.8
-)
 
 # --------------
 
-## beta 1D likelihood
-beta_grid <- seq(0.1, 3, by = 0.1)
-
-posterior_mean_sus <- sus.par
-posterior_mean_spark<- spark.par
-
-ll_profile <- sapply(beta_grid, function(b) {
-  epilike(object = SI.model, tmin = t_start, tmax = t_end, 
-          sus.par = posterior_mean_sus, beta = b, spark = posterior_mean_spark)
-})
-
-plot(
-  beta_grid, ll_profile,
-  type = "l",
-  xlab = "beta",
-  ylab = "log-likelihood"
-)
-
-# --- mark beta value in grid ---
-beta_mark <-1.301
-
-idx <- which.min(abs(beta_grid - beta_mark))
-
-x_mark <- beta_grid[idx]
-y_mark <- ll_profile[idx]
-
-abline(v = x_mark, lty = 2, col = "red")
-abline(h = y_mark, lty = 2, col = "blue")
-
-points(x_mark, y_mark, pch = 19, col = "black", cex = 1.3)
-
-text(
-  x_mark, y_mark,
-  labels = sprintf("(%.1f, %.2f)", x_mark, y_mark),
-  pos = 4,
-  cex = 0.8
-)
-
-#---------------------
-
-## spark 1D likelihood
+## spark profile likelihood, model1
 spark_grid <- seq(0.00001, 0.0005, by = 0.000002)
 
-posterior_mean_alpha <- sus.par
+posterior_mean_alpha <- mean(model1$Estimates[(n.burnin+1):n.iterations, "alpha.1"])
 posterior_mean_beta <- fixed_b
 
 ll_profile_spark <- sapply(spark_grid, function(a) {
@@ -361,3 +280,83 @@ text(
   pos = 4,
   cex = 0.8
 )
+
+#=======================
+
+## alpha profile likelihood, model2
+alpha_grid_m2 <- seq(0.00001, 0.0002, by = 0.000002)
+
+posterior_mean_beta_m2 <- fixed_b
+posterior_mean_spark_m2 <- mean(model2$Estimates[(n.burnin+1):n.iterations, "spark"])
+
+ll_profile_alpha_m2 <- sapply(alpha_grid_m2, function(a) {
+  epilike(object = SI.model, tmin = t_start, tmax = t_end, Sformula = ~ -1 + log10pop,
+          sus.par = a, beta = posterior_mean_beta_m2, spark = posterior_mean_spark_m2)
+})
+
+plot(
+  alpha_grid_m2, ll_profile_alpha_m2,
+  type = "l",
+  xlab = "alpha",
+  ylab = "log-likelihood"
+)
+
+# --- mark alpha in grid ---
+alpha_mark <- 6.534e-05
+idx_m2 <- which.min(abs(alpha_grid_m2 - alpha_mark))
+
+x_mark_m2 <- alpha_grid_m2[idx_m2]
+y_mark_m2 <- ll_profile_alpha_m2[idx_m2]
+
+abline(v = x_mark_m2, lty = 2, col = "red")
+abline(h = y_mark_m2, lty = 2, col = "blue")
+
+points(x_mark_m2, y_mark_m2, pch = 19, col = "black", cex = 1.3)
+
+text(
+  x_mark_m2, y_mark_m2,
+  labels = sprintf("(%.6f, %.2f)", x_mark_m2, y_mark_m2),
+  pos = 4,
+  cex = 0.8
+)
+
+#---------------------
+
+## spark profile likelihood, model2
+spark_grid_m2 <- seq(0.00001, 0.0001, by = 0.000002)
+
+posterior_mean_alpha_m2 <- mean(model2$Estimates[(n.burnin+1):n.iterations, "alpha.1"])
+posterior_mean_beta_m2  <- fixed_b
+
+ll_profile_spark_m2 <- sapply(spark_grid_m2, function(a) {
+  epilike(object = SI.model, tmin = t_start, tmax = t_end,
+    Sformula = ~ -1+log10pop, sus.par = posterior_mean_alpha_m2,
+    beta = posterior_mean_beta_m2, spark = a)
+})
+
+plot(
+  spark_grid_m2, ll_profile_spark_m2,
+  type = "l",
+  xlab = "spark",
+  ylab = "log-likelihood"
+)
+
+# -- mark on grid --- 
+spark_mark <- 7.8357e-5
+idx_m2 <- which.min(abs(spark_grid_m2-spark_mark))
+
+x_mark_m2 <- spark_grid_m2[idx_m2]
+y_mark_m2 <- ll_profile_spark_m2[idx_m2]
+
+abline(v = x_mark_m2, lty = 2, col = "red")
+abline(h = y_mark_m2, lty = 2, col = "blue")
+
+points(x_mark_m2, y_mark_m2, pch = 19, col = "black", cex = 1.3)
+
+text(
+  x_mark_m2, y_mark_m2,
+  labels = sprintf("(%.6f, %.2f)", x_mark_m2, y_mark_m2),
+  pos = 4,
+  cex = 0.8
+)
+

@@ -10,7 +10,7 @@ library(EpiILM)
 
 start_time <- Sys.time()
 
-setwd("C:/Work/research/nih_epi/models/parameter_estimation")
+setwd("") # add directory
 
 cl <- makeCluster(parallel::detectCores() - 1)
 registerDoParallel(cl)
@@ -194,7 +194,7 @@ plot(model1, partype = "parameter", start = 2001, density = FALSE)
 ll_trace <- model1$Loglikelihood
 plot(ll_trace, type = "l", xlab = "iteration", ylab = "log-likelihood")
 
-## alpha 1D likelihood
+## alpha profile likelihood, model1
 alpha_grid <- seq(0.0001, 0.002, by = 0.00002)
 
 posterior_mean_beta <- mean(model1$Estimates[n.burnin:n.iterations, 2])
@@ -208,7 +208,7 @@ ll_profile_alpha <- sapply(alpha_grid, function(a) {
 plot(
   alpha_grid, ll_profile_alpha,
   type = "l",
-  xlab = "alpha / susceptibility parameter",
+  xlab = "alpha",
   ylab = "log-likelihood"
 )
 
@@ -240,7 +240,7 @@ text(
 
 # --------------
 
-## beta 1D likelihood
+## beta profile likelihood, model1
 beta_grid <- seq(0.1, 3, by = 0.1)
 
 posterior_mean_sus <- mean(model1$Estimates[n.burnin:n.iterations, 1])
@@ -280,7 +280,7 @@ text(
 
 #---------------------
 
-## spark 1D likelihood
+## spark profile likelihood, model1
 spark_grid <- seq(0.00001, 0.0001, by = 0.000002)
 
 posterior_mean_alpha  <- mean(model1$Estimates[n.burnin:n.iterations, 1])
@@ -324,6 +324,8 @@ text(
   pos = 4,
   cex = 0.8
 )
+
+## for model 2 profile likelihoods refer to the mcmc_fixedbeta.R file 
 
 # #--- save params ---
 # samples <- model1$Estimates[(n.burnin+1):nrow(model1$Estimates), ]
