@@ -1,7 +1,7 @@
 library(dplyr)
 library(geosphere)
 
-setwd("C:/Work/research/nih_epi/models/parameter_estimation")
+setwd("") #add directory
 
 hsa_geo <- read.csv("HSA_GEO.csv")
 
