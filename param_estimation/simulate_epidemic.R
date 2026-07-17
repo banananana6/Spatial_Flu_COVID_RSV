@@ -1,3 +1,5 @@
+# simulation of epidemic with comparison to observed data
+
 library(EpiILM)
 library(dplyr)
 library(ggplot2)

@@ -1,3 +1,5 @@
+# MLE for the three-parameter model (alpha, beta, eps) and the fixed-beta model (alpha, eps)
+
 library(dplyr)
 library(geosphere)
 
